@@ -1,5 +1,7 @@
 package dev.sumanth.paysquareroot.ui.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -47,6 +49,7 @@ import dev.sumanth.paysquareroot.utils.landingPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jsoup.nodes.Document
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -71,31 +74,38 @@ fun LoginScreen(navController: NavHostController) {
     var passwordVisibility by remember { mutableStateOf(false) }
     var loader by remember { mutableStateOf(false) }
 
-    fun login(username: String, password: String, preferences: PreferencesManager ) {
+    var loginPage: Document? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(Unit)  {
         CoroutineScope(Dispatchers.IO).launch {
-            loader = true
             val body = landingPage()
-            val isSuccess = authenticate(body, username, password)
-            if(!isSuccess) {
-                loader = false
-                return@launch
-            }
-            preferences.saveCredentials(username, password)
-            val redirectUrl = getRedirectUrl()
-            val params = getParams(redirectUrl)
-            dummyRequests(redirectUrl)
-            val accessTokenObject = getAccessTokenObject(params["onresuerauqsyap"] as String, false)
-            getData(accessTokenObject, params, redirectUrl, false)
-            dahboardData = getDashboardData(accessTokenObject)
-            SSOUT(accessTokenObject)
-            val accessTokenObjectLMS = getAccessTokenObject(params["onresuerauqsyap"] as String, true)
-            getData(accessTokenObjectLMS, params, redirectUrl, true)
-            lmsData = getLmsDashboardData(accessTokenObjectLMS)
-            punchTimes = getPunchTimes(accessTokenObjectLMS)
+            loginPage = body
+        }
+    }
+
+    fun login(username: String, password: String, preferences: PreferencesManager ) = CoroutineScope(Dispatchers.IO).launch {
+        if(loginPage == null) return@launch
+        loader = true
+
+        val isSuccess = authenticate(loginPage as Document, username, password)
+        if(!isSuccess) {
             loader = false
-            launch(Dispatchers.Main) {
-                navController.navigate("Home")
-            }
+            showToast(context, "Unable to authenticate")
+            return@launch
+        }
+        preferences.saveCredentials(username, password)
+        val redirectUrl = getRedirectUrl()
+        val params = getParams(redirectUrl)
+        val accessTokenObject = getAccessTokenObject(params["onresuerauqsyap"] as String, false)
+        getData(accessTokenObject, params, redirectUrl, false)
+        dahboardData = getDashboardData(accessTokenObject)
+        val accessTokenObjectLMS = getAccessTokenObject(params["onresuerauqsyap"] as String, true)
+        getData(accessTokenObjectLMS, params, redirectUrl, true)
+        lmsData = getLmsDashboardData(accessTokenObjectLMS)
+        punchTimes = getPunchTimes(accessTokenObjectLMS)
+        loader = false
+        launch(Dispatchers.Main) {
+            navController.navigate("Home")
         }
     }
 
@@ -117,5 +127,9 @@ fun LoginScreen(navController: NavHostController) {
             }
         }
     }
+}
+
+fun showToast(context: Context, text: String) = CoroutineScope(Dispatchers.Main).launch {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 
