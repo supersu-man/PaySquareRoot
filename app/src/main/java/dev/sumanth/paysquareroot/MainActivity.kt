@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,31 +36,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
         setContent {
             val navController = rememberNavController()
             var topBarText by remember { mutableStateOf("Login") }
             Background {
-                Scaffold(topBar = { TopBar(topBarText) }, modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        NavHost(navController = navController, startDestination = "Login") {
-                            composable("Login") {
-                                topBarText = "Login"
-                                LoginScreen(navController)
-                            }
-                            composable("Home") {
-                                topBarText = "Dashboard"
-                                HomeScreen()
-                            }
-                        }
+                NavHost(navController = navController, startDestination = "Login", modifier = Modifier.padding(0.dp, 20.dp)) {
+                    composable("Login") {
+                        topBarText = "Login"
+                        LoginScreen(navController)
+                    }
+                    composable("Home") {
+                        topBarText = "Dashboard"
+                        HomeScreen()
                     }
                 }
             }
         }
 
-
     }
-
-
 
 }
