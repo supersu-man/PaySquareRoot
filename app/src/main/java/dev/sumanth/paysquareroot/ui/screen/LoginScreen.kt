@@ -2,6 +2,7 @@ package dev.sumanth.paysquareroot.ui.screen
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
@@ -109,24 +111,27 @@ fun LoginScreen(navController: NavHostController) {
         }
     }
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize().padding(20.dp)) {
-        OutlinedTextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
-        OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") },
-            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = { IconToggleButton(checked = passwordVisibility, onCheckedChange = { passwordVisibility = it }) {
-                Icon(imageVector = if(passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff, contentDescription = "")
-            } }
-        )
-        Button(modifier = Modifier.padding(0.dp, 20.dp, 0.dp, 0.dp).height(40.dp),
-            onClick = { login(username, password, preferences) }
-        ) {
-            if(loader) {
-                CircularProgressIndicator(modifier = Modifier.fillMaxHeight().aspectRatio(1f), color = MaterialTheme.colorScheme.onPrimary)
-            } else {
-                Text("Login")
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Card {
+            Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                OutlinedTextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
+                OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") },
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = { IconToggleButton(checked = passwordVisibility, onCheckedChange = { passwordVisibility = it }) {
+                        Icon(imageVector = if(passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff, contentDescription = "")
+                    } }
+                )
+                Button(modifier = Modifier.padding(0.dp, 20.dp, 0.dp, 0.dp).height(40.dp), onClick = { login(username, password, preferences) }) {
+                    if(loader) {
+                        CircularProgressIndicator(modifier = Modifier.fillMaxHeight().aspectRatio(1f), color = MaterialTheme.colorScheme.onPrimary)
+                    } else {
+                        Text("Login")
+                    }
+                }
             }
         }
     }
+
 }
 
 fun showToast(context: Context, text: String) = CoroutineScope(Dispatchers.Main).launch {

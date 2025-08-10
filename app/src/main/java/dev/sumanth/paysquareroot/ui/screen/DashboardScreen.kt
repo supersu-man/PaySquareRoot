@@ -28,13 +28,11 @@ fun DashboardScreen() {
     val birthdays = dahboardData.getJSONArray("birthday")
     val anniversaries = dahboardData.getJSONArray("anniversary")
 
-    println(birthdays)
-    println(anniversaries)
-
     val firstPunchTime = getPunchInTime(punchTimes)
     val lastPunchTime = getLastPunchTime(punchTimes)
     val balanceLeaves = getLeaveBalance(leaveBalance)
-    val todayEvents = getTodayEvents(birthdays, anniversaries)
+    val todayBirthdays = getTodayBirthDays(birthdays)
+    val todayAnniversaries = getTodayAnniversaries(anniversaries)
 
     Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
 
@@ -56,21 +54,23 @@ fun DashboardScreen() {
             Text(balanceLeaves.toString(), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
 
-        Text("Today's Events", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
-        for (index in 0 until todayEvents.length()) {
-            val event = todayEvents.getJSONObject(index)
-            if(event.has("dateOfBirth")) {
-                Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
-                    Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
-                    Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                    Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
-                }
-            } else {
-                Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
-                    Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
-                    Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                    Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
-                }
+        Text("Today's Birthdays", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        for (index in 0 until todayBirthdays.length()) {
+            val event = todayBirthdays.getJSONObject(index)
+            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+                Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
+                Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
+                Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+            }
+        }
+
+        Text("Today's Anniversaries", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        for (index in 0 until todayAnniversaries.length()) {
+            val event = todayAnniversaries.getJSONObject(index)
+            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+                Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
+                Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
+                Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
     }
@@ -105,8 +105,7 @@ fun getLeaveBalance(leaveBalance: JSONArray): Double {
     return count
 }
 
-fun getTodayEvents(birthdays: JSONArray, anniversaries: JSONArray): JSONArray {
-
+fun getTodayBirthDays(birthdays: JSONArray): JSONArray {
     val finalArray = JSONArray()
 
     val formatter = DateTimeFormatter.ofPattern("MM-dd")
@@ -121,6 +120,15 @@ fun getTodayEvents(birthdays: JSONArray, anniversaries: JSONArray): JSONArray {
             finalArray.put(birthday)
         }
     }
+    return finalArray
+}
+
+fun getTodayAnniversaries(anniversaries: JSONArray): JSONArray {
+
+    val finalArray = JSONArray()
+
+    val formatter = DateTimeFormatter.ofPattern("MM-dd")
+    val current = LocalDateTime.now().format(formatter)
 
     for (i in 0 until anniversaries.length()) {
         val anniversary = anniversaries.getJSONObject(i)

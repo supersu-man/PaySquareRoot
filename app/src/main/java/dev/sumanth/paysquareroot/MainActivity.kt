@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             var topBarText by remember { mutableStateOf("Login") }
             Background {
-                NavHost(navController = navController, startDestination = "Login", modifier = Modifier.padding(0.dp, 20.dp)) {
+                NavHost(navController = navController, startDestination = "Login") {
                     composable("Login") {
                         topBarText = "Login"
                         LoginScreen(navController)
