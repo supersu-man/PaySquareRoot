@@ -54,7 +54,7 @@ fun DashboardScreen() {
             Text(balanceLeaves.toString(), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
 
-        Text("Today's Birthdays", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Text(if(todayBirthdays.length() == 0) "No birthdays today" else "Today's Birthdays", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
         for (index in 0 until todayBirthdays.length()) {
             val event = todayBirthdays.getJSONObject(index)
             Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
@@ -64,7 +64,7 @@ fun DashboardScreen() {
             }
         }
 
-        Text("Today's Anniversaries", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Text(if(todayAnniversaries.length() == 0) "No anniversaries today" else "Today's Anniversaries", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
         for (index in 0 until todayAnniversaries.length()) {
             val event = todayAnniversaries.getJSONObject(index)
             Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
