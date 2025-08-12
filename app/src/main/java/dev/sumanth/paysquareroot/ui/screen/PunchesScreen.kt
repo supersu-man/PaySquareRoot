@@ -37,9 +37,8 @@ fun PunchesScreen() {
             val punchDate = obj.getString("punch_time") as String
             val punchTime = punchDate.split(" ")[1]
 
-            Card(modifier = Modifier.weight(0.5f).padding(5.dp)) {
-                Text("Punch In", modifier = Modifier.padding(10.dp, 10.dp))
-                Text(punchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+                Text(punchTime, modifier = Modifier.padding(10.dp))
             }
         }
 
