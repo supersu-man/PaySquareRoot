@@ -33,13 +33,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import dev.sumanth.paysquareroot.dahboardData
-import dev.sumanth.paysquareroot.lmsData
+import dev.sumanth.paysquareroot.anniversaries
+import dev.sumanth.paysquareroot.birthdays
+import dev.sumanth.paysquareroot.companyData
+import dev.sumanth.paysquareroot.leaves
 import dev.sumanth.paysquareroot.punchTimes
 import dev.sumanth.paysquareroot.utils.PreferencesManager
-import dev.sumanth.paysquareroot.utils.SSOUT
 import dev.sumanth.paysquareroot.utils.authenticate
-import dev.sumanth.paysquareroot.utils.dummyRequests
 import dev.sumanth.paysquareroot.utils.getAccessTokenObject
 import dev.sumanth.paysquareroot.utils.getDashboardData
 import dev.sumanth.paysquareroot.utils.getData
@@ -99,12 +99,17 @@ fun LoginScreen(navController: NavHostController) {
         val redirectUrl = getRedirectUrl()
         val params = getParams(redirectUrl)
         val accessTokenObject = getAccessTokenObject(params["onresuerauqsyap"] as String, false)
-        getData(accessTokenObject, params, redirectUrl, false)
-        dahboardData = getDashboardData(accessTokenObject)
+        companyData = getData(accessTokenObject, params, redirectUrl, false)
+        val dashboardData = getDashboardData(accessTokenObject)
+        birthdays = dashboardData.getJSONArray("birthday")
+        anniversaries = dashboardData.getJSONArray("anniversary")
         val accessTokenObjectLMS = getAccessTokenObject(params["onresuerauqsyap"] as String, true)
         getData(accessTokenObjectLMS, params, redirectUrl, true)
-        lmsData = getLmsDashboardData(accessTokenObjectLMS)
-        punchTimes = getPunchTimes(accessTokenObjectLMS)
+        val lmsData = getLmsDashboardData(accessTokenObjectLMS)
+        leaves = lmsData.getJSONArray("leaveBalance")
+        val punchTimess = getPunchTimes(accessTokenObjectLMS)
+        punchTimes = punchTimess.getJSONArray("dtAttendance")
+
         loader = false
         launch(Dispatchers.Main) {
             navController.navigate("Home")

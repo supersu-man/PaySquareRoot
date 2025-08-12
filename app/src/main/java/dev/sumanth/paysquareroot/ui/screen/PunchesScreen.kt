@@ -15,13 +15,12 @@ import dev.sumanth.paysquareroot.punchTimes
 
 @Composable
 fun PunchesScreen() {
-    val punchTimes = punchTimes.getJSONArray("dtAttendance")
     val firstPunchTime = getPunchInTime(punchTimes)
     val lastPunchTime = getLastPunchTime(punchTimes)
 
     Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
 
-//        Text("Today", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Text("In / Out", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
         Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
             Text("Punch In", modifier = Modifier.padding(10.dp, 10.dp))
             Text(firstPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
@@ -31,7 +30,7 @@ fun PunchesScreen() {
             Text(lastPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
 
-        Text("All punches", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Text("All Punches", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
         for (i in 0 until punchTimes.length()) {
             val obj = punchTimes.getJSONObject(i)
             val punchDate = obj.getString("punch_time") as String

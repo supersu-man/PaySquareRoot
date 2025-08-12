@@ -183,7 +183,7 @@ fun dummyRequests(redirectUrl: String) {
     getHttpClient().newCall(request3).execute()
 }
 
-fun getData(accessTokenObject: JSONObject, params: Map<String,String>, loginUrl: String, isLms: Boolean): Any {
+fun getData(accessTokenObject: JSONObject, params: Map<String,String>, loginUrl: String, isLms: Boolean): JSONObject {
     val endpoint = if(isLms) "https://mylmsapi.paysquare.com" else "https://mypayrollapi.payrollengine.net"
     val accessToken = accessTokenObject["access_token"] as String
     val onresuerauqsyap = params["onresuerauqsyap"] as String
@@ -207,8 +207,8 @@ fun getData(accessTokenObject: JSONObject, params: Map<String,String>, loginUrl:
     val response = getHttpClient().newCall(request).execute()
     val responseBody = response.body.string()
     val jsonObject = JSONObject(responseBody)
-    val data = jsonObject["data"]
-    println("data " + data)
+    val data = jsonObject.getJSONObject("data")
+    println("data $data")
     return data
 }
 

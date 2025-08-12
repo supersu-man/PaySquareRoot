@@ -1,0 +1,45 @@
+package dev.sumanth.paysquareroot.ui.screen
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import dev.sumanth.paysquareroot.anniversaries
+import dev.sumanth.paysquareroot.birthdays
+
+@Composable
+fun EventsScreen() {
+
+
+    Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
+
+        Text("Birthdays", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        for (index in 0 until birthdays.length()) {
+            val event = birthdays.getJSONObject(index)
+            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+                Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
+                Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
+                Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+            }
+        }
+
+        Text("Anniversaries", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        for (index in 0 until anniversaries.length()) {
+            val event = anniversaries.getJSONObject(index)
+            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+                Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
+                Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
+                Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+            }
+        }
+
+    }
+
+}

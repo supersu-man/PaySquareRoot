@@ -10,11 +10,14 @@ import androidx.navigation.compose.rememberNavController
 import dev.sumanth.paysquareroot.ui.component.Background
 import dev.sumanth.paysquareroot.ui.screen.HomeScreen
 import dev.sumanth.paysquareroot.ui.screen.LoginScreen
+import org.json.JSONArray
 import org.json.JSONObject
 
-var dahboardData: JSONObject = JSONObject()
-var lmsData: JSONObject = JSONObject()
-var punchTimes: JSONObject = JSONObject()
+var birthdays = JSONArray()
+var anniversaries = JSONArray()
+var leaves = JSONArray()
+var punchTimes = JSONArray()
+var companyData = JSONObject()
 
 class MainActivity : ComponentActivity() {
 
