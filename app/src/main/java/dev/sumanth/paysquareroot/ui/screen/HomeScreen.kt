@@ -42,6 +42,8 @@ fun HomeScreen() {
                 DashboardScreen()
             } else if(page == 1) {
                 PunchesScreen()
+            } else if(page == 2) {
+                LeavesScreen()
             }
         }
     }
