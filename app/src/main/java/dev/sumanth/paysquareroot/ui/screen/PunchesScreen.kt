@@ -1,8 +1,10 @@
 package dev.sumanth.paysquareroot.ui.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,28 +20,34 @@ fun PunchesScreen() {
     val firstPunchTime = getPunchInTime(punchTimes)
     val lastPunchTime = getLastPunchTime(punchTimes)
 
-    Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier.fillMaxSize().padding(20.dp, 0.dp, 20.dp, 0.dp).verticalScroll(rememberScrollState())) {
 
-        Text("In / Out", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
-        Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text("In / Out")
+        Card(modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp, 0.dp, 0.dp)) {
             Text("Punch In", modifier = Modifier.padding(10.dp, 10.dp))
             Text(firstPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
-        Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+        Card(modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp, 0.dp, 0.dp)) {
             Text("Punch Out", modifier = Modifier.padding(10.dp, 10.dp))
             Text(lastPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
 
-        Text("All Punches", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+
+        Text("All Punches")
         for (i in 0 until punchTimes.length()) {
             val obj = punchTimes.getJSONObject(i)
             val punchDate = obj.getString("punch_time") as String
             val punchTime = punchDate.split(" ")[1]
 
-            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+            Card(modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp, 0.dp, 0.dp)) {
                 Text(punchTime, modifier = Modifier.padding(10.dp))
             }
         }
+
 
     }
 

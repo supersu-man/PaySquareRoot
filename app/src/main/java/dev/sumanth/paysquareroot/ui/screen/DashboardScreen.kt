@@ -1,9 +1,12 @@
 package dev.sumanth.paysquareroot.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.sumanth.paysquareroot.anniversaries
 import dev.sumanth.paysquareroot.birthdays
 import dev.sumanth.paysquareroot.companyData
@@ -40,59 +44,70 @@ fun DashboardScreen() {
     val todayBirthdays = getTodayBirthDays(birthdays)
     val todayAnniversaries = getTodayAnniversaries(anniversaries)
 
-    Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier.fillMaxSize().padding(20.dp, 0.dp, 20.dp, 0.dp).verticalScroll(rememberScrollState())) {
 
-        Text(companyData.getString("userFullName"), modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text(companyData.getString("userFullName"), fontSize = 30.sp)
         Text("Employee Code: ${companyData.getString("empCode")}")
 
+        Box(modifier = Modifier.height(30.dp)) {  }
 
-        Text("Today's Punch", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
-        Row {
-            Card(modifier = Modifier.weight(0.5f).padding(5.dp)) {
+        Text("Today's Punch")
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)) {
+            Card(modifier = Modifier.weight(0.5f)) {
                 Text("In Time", modifier = Modifier.padding(10.dp, 10.dp))
                 Text(firstPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
-            Card(modifier = Modifier.weight(0.5f).padding(5.dp)) {
+            Card(modifier = Modifier.weight(0.5f)) {
                 Text("Last Punch", modifier = Modifier.padding(10.dp, 10.dp))
                 Text(lastPunchTime, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
-        Row {
-            Card(modifier = Modifier.weight(0.5f).padding(5.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(0.dp, 10.dp, 0.dp, 0.dp)) {
+            Card(modifier = Modifier.weight(0.5f)) {
                 Text("Out Time", modifier = Modifier.padding(10.dp, 10.dp))
                 Text(outTime?.first ?: "-", modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
-            Card(modifier = Modifier.weight(0.5f).padding(5.dp)) {
+            Card(modifier = Modifier.weight(0.5f)) {
                 Text("Time left", modifier = Modifier.padding(10.dp, 10.dp))
                 Text(outTime?.second ?: "-", modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 
-        Text("Leave Balance", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
-        Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text("Leave Balance")
+        Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
             Text("Available Leaves", modifier = Modifier.padding(10.dp, 10.dp))
             Text(balanceLeaves.toString(), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
         }
 
-        Text(if(todayBirthdays.length() == 0) "No birthdays today" else "Today's Birthdays", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text(if(todayBirthdays.length() == 0) "No birthdays today" else "Today's Birthdays")
         for (index in 0 until todayBirthdays.length()) {
             val event = todayBirthdays.getJSONObject(index)
-            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+            Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
                 Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 
-        Text(if(todayAnniversaries.length() == 0) "No anniversaries today" else "Today's Anniversaries", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text(if(todayAnniversaries.length() == 0) "No anniversaries today" else "Today's Anniversaries")
         for (index in 0 until todayAnniversaries.length()) {
             val event = todayAnniversaries.getJSONObject(index)
-            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+            Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
                 Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
+
+        Box(modifier = Modifier.height(30.dp)) {  }
     }
 }
 

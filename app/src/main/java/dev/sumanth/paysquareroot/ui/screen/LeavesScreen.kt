@@ -1,9 +1,11 @@
 package dev.sumanth.paysquareroot.ui.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,13 +20,15 @@ import dev.sumanth.paysquareroot.leaves
 fun LeavesScreen() {
 
 
-    Column(modifier = Modifier.fillMaxSize().padding(10.dp).verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier.fillMaxSize().padding(20.dp, 0.dp, 20.dp, 0.dp).verticalScroll(rememberScrollState())) {
 
-        Text("Leave Balance", modifier = Modifier.padding(5.dp, 20.dp, 0.dp, 10.dp))
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text("Leave Balance")
 
         for (i in 0 until leaves.length()) {
             val obj = leaves.getJSONObject(i)
-            Card(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
+            Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(obj.getString("leaveDescription"), modifier = Modifier.padding(10.dp, 10.dp))
                 Row(modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp)) {
                     Text("Opening: ${obj.getString("leaveOpeningBalance")}", modifier = Modifier.weight(0.5f))
@@ -32,6 +36,9 @@ fun LeavesScreen() {
                 }
             }
         }
+
+        Box(modifier = Modifier.height(30.dp)) {  }
+
 
     }
 
