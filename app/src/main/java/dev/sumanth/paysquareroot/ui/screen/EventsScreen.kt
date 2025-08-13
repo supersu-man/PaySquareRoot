@@ -30,7 +30,7 @@ fun EventsScreen() {
             Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+                Text(formattedDate(event.getString("dateOfBirth")), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 
@@ -42,7 +42,7 @@ fun EventsScreen() {
             Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+                Text(formattedDate(event.getString("joiningDate")), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 

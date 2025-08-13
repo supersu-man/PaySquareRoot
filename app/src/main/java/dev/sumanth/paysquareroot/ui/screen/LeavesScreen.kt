@@ -19,7 +19,6 @@ import dev.sumanth.paysquareroot.leaves
 @Composable
 fun LeavesScreen() {
 
-
     Column(modifier = Modifier.fillMaxSize().padding(20.dp, 0.dp, 20.dp, 0.dp).verticalScroll(rememberScrollState())) {
 
         Box(modifier = Modifier.height(30.dp)) {  }
@@ -38,7 +37,6 @@ fun LeavesScreen() {
         }
 
         Box(modifier = Modifier.height(30.dp)) {  }
-
 
     }
 

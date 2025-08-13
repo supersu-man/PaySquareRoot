@@ -22,6 +22,8 @@ import dev.sumanth.paysquareroot.birthdays
 import dev.sumanth.paysquareroot.companyData
 import dev.sumanth.paysquareroot.leaves
 import dev.sumanth.paysquareroot.punchTimes
+import dev.sumanth.paysquareroot.utils.getDateObject
+import dev.sumanth.paysquareroot.utils.getFormattedDate
 import dev.sumanth.paysquareroot.utils.getFormattedTime
 import dev.sumanth.paysquareroot.utils.getTimeDifference
 import dev.sumanth.paysquareroot.utils.getTimeObject
@@ -91,7 +93,7 @@ fun DashboardScreen() {
             Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                Text(event.getString("dateOfBirth"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+                Text(formattedDate(event.getString("dateOfBirth")) , modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 
@@ -103,7 +105,7 @@ fun DashboardScreen() {
             Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
                 Text(event.getString("shortName"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
                 Text(event.getString("departmentDescription"), modifier = Modifier.padding(10.dp, 5.dp))
-                Text(event.getString("joiningDate"), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
+                Text(formattedDate(event.getString("joiningDate")), modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 10.dp))
             }
         }
 
@@ -135,7 +137,7 @@ fun getLastPunchTime(punchTimes: JSONArray): String {
 
 }
 
-fun getOutTime(punchTimes: JSONArray): Pair<String, String>? {
+private fun getOutTime(punchTimes: JSONArray): Pair<String, String>? {
     if(punchTimes.length() == 0) return null
     val lastObject = punchTimes.getJSONObject(punchTimes.length()-1)
     val punchDate = lastObject.getString("punch_time") as String
@@ -150,7 +152,7 @@ fun getOutTime(punchTimes: JSONArray): Pair<String, String>? {
     return Pair(getFormattedTime(calendar.time), timeDifference)
 }
 
-fun getLeaveBalance(leaveBalance: JSONArray): Double {
+private fun getLeaveBalance(leaveBalance: JSONArray): Double {
     var count = 0.0
     for (i in 0 until leaveBalance.length()) {
         val balanceLeave = leaveBalance.getJSONObject(i).getDouble("balanceLeave")
@@ -159,41 +161,40 @@ fun getLeaveBalance(leaveBalance: JSONArray): Double {
     return count
 }
 
-fun getTodayBirthDays(birthdays: JSONArray): JSONArray {
+private fun getTodayBirthDays(birthdays: JSONArray): JSONArray {
     val finalArray = JSONArray()
-
-    val formatter = DateTimeFormatter.ofPattern("MM-dd")
-    val current = LocalDateTime.now().format(formatter)
-
+    val today = Calendar.getInstance()
     for (i in 0 until birthdays.length()) {
         val birthday = birthdays.getJSONObject(i)
         val dateOfBirth = birthday.getString("dateOfBirth")
         val date = dateOfBirth.split("T")[0]
-        val final = date.split("-")[1] + "-" + date.split("-")[2]
-        if(final == current) {
+        val obj = getDateObject(date)
+        if(obj.date == today.get(Calendar.DATE) && obj.month == today.get(Calendar.MONTH)) {
             finalArray.put(birthday)
         }
     }
     return finalArray
 }
 
-fun getTodayAnniversaries(anniversaries: JSONArray): JSONArray {
-
+private fun getTodayAnniversaries(anniversaries: JSONArray): JSONArray {
     val finalArray = JSONArray()
-
-    val formatter = DateTimeFormatter.ofPattern("MM-dd")
-    val current = LocalDateTime.now().format(formatter)
-
+    val today = Calendar.getInstance()
     for (i in 0 until anniversaries.length()) {
         val anniversary = anniversaries.getJSONObject(i)
         val joiningDate = anniversary.getString("joiningDate")
         val date = joiningDate.split("T")[0]
-        val final = date.split("-")[1] + "-" + date.split("-")[2]
-        if(final == current) {
+        val obj = getDateObject(date)
+        if(obj.date == today.get(Calendar.DATE) && obj.month == today.get(Calendar.MONTH)) {
             finalArray.put(anniversary)
         }
     }
-
     return finalArray
 
+}
+
+fun formattedDate(s: String): String {
+    val date = s.split("T")[0]
+    val dateObject = getDateObject(date)
+    val formattedDate = getFormattedDate(dateObject)
+    return formattedDate
 }

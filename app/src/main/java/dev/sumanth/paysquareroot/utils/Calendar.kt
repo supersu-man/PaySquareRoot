@@ -5,14 +5,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun getTimeString(s: String): String {
-    return s.split(" ")[1]
-}
-
-fun getDateString(s: String): String {
-    return s.split("T")[0]
-}
-
 fun getTimeObject(s: String): Date {
     val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
 
@@ -26,11 +18,9 @@ fun getTimeObject(s: String): Date {
 }
 
 fun getDateObject(s: String): Date {
-    val timeFormat = SimpleDateFormat("yyyy-MM-DD", Locale.getDefault())
-
-    val calendar = Calendar.getInstance()
-    calendar.time = timeFormat.parse(s)!!
-    return calendar.time
+    val timeFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val parsedDate = timeFormat.parse(s)!!
+    return parsedDate
 }
 
 fun getTimeDifference(oldTime: Date, newTime: Date): String {
@@ -44,17 +34,14 @@ fun getTimeDifference(oldTime: Date, newTime: Date): String {
 }
 
 fun getFormattedDate(date: Date): String {
+    val diff = Calendar.getInstance().time.year - date.year
     val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
     val formattedDate = dateFormat.format(date)
-    return formattedDate
+    return "$formattedDate (${if(diff == 1) "1 year" else "$diff years"})"
 }
 
 fun getFormattedTime(date: Date): String {
     val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
     val formattedDate = dateFormat.format(date)
     return formattedDate
-}
-
-fun getFormattedRemainingTime(date: Date) {
-
 }

@@ -26,12 +26,12 @@ import dev.sumanth.paysquareroot.ui.component.TopBar
 
 @Composable
 fun HomeScreen() {
-    val navigationItems = listOf(
+    val navigationItems = remember { listOf(
         NavigationItem("Dashboard", Icons.Filled.Home, Icons.Outlined.Home),
         NavigationItem("Punches", Icons.Filled.AccessTime, Icons.Outlined.AccessTime),
         NavigationItem("Leaves", Icons.Filled.CalendarMonth, Icons.Outlined.CalendarMonth),
         NavigationItem("Events", Icons.Filled.Event, Icons.Outlined.Event)
-    )
+    )}
     val pagerState = rememberPagerState( pageCount = { navigationItems.size })
     var topBarText by remember { mutableStateOf("Dashboard") }
 
