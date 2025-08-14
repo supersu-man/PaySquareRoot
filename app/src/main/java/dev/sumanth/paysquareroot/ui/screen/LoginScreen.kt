@@ -2,13 +2,16 @@ package dev.sumanth.paysquareroot.ui.screen
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -28,11 +31,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import dev.sumanth.paysquareroot.R
 import dev.sumanth.paysquareroot.anniversaries
 import dev.sumanth.paysquareroot.birthdays
 import dev.sumanth.paysquareroot.companyData
@@ -76,7 +82,7 @@ fun LoginScreen(navController: NavHostController) {
     var passwordVisibility by remember { mutableStateOf(false) }
     var loader by remember { mutableStateOf(false) }
 
-    var loginPage: Document? by remember { mutableStateOf(null) }
+    var loginPage: Document? = remember { null }
 
     LaunchedEffect(Unit)  {
         CoroutineScope(Dispatchers.IO).launch {
@@ -116,7 +122,10 @@ fun LoginScreen(navController: NavHostController) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)) {
+
+        Image(painterResource(R.drawable.logo), "", modifier = Modifier.size(200.dp).clip(CircleShape))
+
         Card {
             Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 OutlinedTextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
