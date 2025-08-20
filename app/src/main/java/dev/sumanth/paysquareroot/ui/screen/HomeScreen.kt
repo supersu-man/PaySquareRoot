@@ -38,14 +38,11 @@ fun HomeScreen() {
     Scaffold(topBar = { TopBar(topBarText) }, bottomBar = { BottomBar(navigationItems, pagerState) }) { innerpadding ->
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize().padding(innerpadding)) { page ->
             topBarText = navigationItems[pagerState.currentPage].title
-            if(page == 0) {
-                DashboardScreen()
-            } else if(page == 1) {
-                PunchesScreen()
-            } else if(page == 2) {
-                LeavesScreen()
-            } else if(page == 3) {
-                EventsScreen()
+            when (page) {
+                0 -> DashboardScreen()
+                1 -> PunchesScreen()
+                2 -> LeavesScreen()
+                3 -> EventsScreen()
             }
         }
     }
