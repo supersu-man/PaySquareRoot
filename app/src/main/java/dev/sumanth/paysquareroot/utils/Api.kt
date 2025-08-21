@@ -296,6 +296,24 @@ fun getPunchTimes(accessTokenObject: JSONObject): JSONObject {
     return jsonObject
 }
 
+fun getHolidayList(accessTokenObject: JSONObject): JSONObject {
+    val accessToken = accessTokenObject["access_token"] as String
+    val formBody = FormBody.Builder().add("Year", "2025").build()
+    val request = Request.Builder().url("https://mylmsapi.paysquare.com/api/Reports/holidaylist").post(formBody)
+        .addHeader("accept", "application/json, text/plain, */*")
+        .addHeader("host", "mylmsapi.paysquare.com")
+        .addHeader("origin", "https://mylmsui.paysquare.com")
+        .addHeader("referer", "https://mylmsui.paysquare.com/")
+        .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0")
+        .addHeader("authorization", "Bearer $accessToken")
+        .build()
+
+    val response = getHttpClient().newCall(request).execute()
+    val responseBody = response.body.string()
+    val jsonObject = JSONObject(responseBody)
+    return jsonObject
+}
+
 fun getUtcWindowFromDate(date: LocalDate): Pair<String, String> {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 

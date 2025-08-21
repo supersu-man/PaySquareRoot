@@ -49,6 +49,7 @@ import dev.sumanth.paysquareroot.utils.authenticate
 import dev.sumanth.paysquareroot.utils.getAccessTokenObject
 import dev.sumanth.paysquareroot.utils.getDashboardData
 import dev.sumanth.paysquareroot.utils.getData
+import dev.sumanth.paysquareroot.utils.getHolidayList
 import dev.sumanth.paysquareroot.utils.getLmsDashboardData
 import dev.sumanth.paysquareroot.utils.getParams
 import dev.sumanth.paysquareroot.utils.getPunchTimes
@@ -115,7 +116,9 @@ fun LoginScreen(navController: NavHostController) {
         leaves = lmsData.getJSONArray("leaveBalance")
         val punchTimess = getPunchTimes(accessTokenObjectLMS)
         punchTimes = punchTimess.getJSONArray("dtAttendance")
-
+        val holidayData = getHolidayList(accessTokenObjectLMS)
+        holidayList = holidayData.getJSONArray("holidayData")
+        
         loader = false
         launch(Dispatchers.Main) {
             navController.navigate("Home")

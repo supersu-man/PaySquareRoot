@@ -18,6 +18,7 @@ var anniversaries = JSONArray()
 var leaves = JSONArray()
 var punchTimes = JSONArray()
 var companyData = JSONObject()
+var holidayList = JSONArray()
 
 class MainActivity : ComponentActivity() {
 
