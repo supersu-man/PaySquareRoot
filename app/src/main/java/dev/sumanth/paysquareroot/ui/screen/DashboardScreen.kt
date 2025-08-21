@@ -20,10 +20,13 @@ import androidx.compose.ui.unit.sp
 import dev.sumanth.paysquareroot.anniversaries
 import dev.sumanth.paysquareroot.birthdays
 import dev.sumanth.paysquareroot.companyData
+import dev.sumanth.paysquareroot.holidayList
 import dev.sumanth.paysquareroot.leaves
 import dev.sumanth.paysquareroot.punchTimes
 import dev.sumanth.paysquareroot.utils.getDateObject
+import dev.sumanth.paysquareroot.utils.getDateObjectV2
 import dev.sumanth.paysquareroot.utils.getFormattedDate
+import dev.sumanth.paysquareroot.utils.getFormattedDateV2
 import dev.sumanth.paysquareroot.utils.getFormattedTime
 import dev.sumanth.paysquareroot.utils.getTimeDifference
 import dev.sumanth.paysquareroot.utils.getTimeObject
@@ -109,6 +112,16 @@ fun DashboardScreen() {
             }
         }
 
+        Box(modifier = Modifier.height(30.dp)) {  }
+
+        Text("Holidays")
+        for (index in 0 until holidayList.length()) {
+            val holiday = holidayList.getJSONObject(index)
+            Card(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp, 0.dp, 0.dp)) {
+                Text(holiday.getString("holiDay"), modifier = Modifier.padding(10.dp, 10.dp, 10.dp, 5.dp))
+                Text(formattedDateV2(holiday.getString("fromDate")), modifier = Modifier.padding(10.dp, 5.dp))
+            }
+        }
         Box(modifier = Modifier.height(30.dp)) {  }
     }
 }
@@ -196,5 +209,11 @@ fun formattedDate(s: String): String {
     val date = s.split("T")[0]
     val dateObject = getDateObject(date)
     val formattedDate = getFormattedDate(dateObject)
+    return formattedDate
+}
+
+fun formattedDateV2(s: String): String {
+    val dateObject = getDateObjectV2(s)
+    val formattedDate = getFormattedDateV2(dateObject)
     return formattedDate
 }
