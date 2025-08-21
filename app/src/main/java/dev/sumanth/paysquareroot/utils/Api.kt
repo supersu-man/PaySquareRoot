@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -159,7 +160,6 @@ fun getAccessTokenObject(username: String?, isLms: Boolean): JSONObject {
 
     val body = response.body.string()
     val jsonObj = JSONObject(body)
-    println("tokenObject " + jsonObj)
 
     return jsonObj
 }
@@ -208,7 +208,6 @@ fun getData(accessTokenObject: JSONObject, params: Map<String,String>, loginUrl:
     val responseBody = response.body.string()
     val jsonObject = JSONObject(responseBody)
     val data = jsonObject.getJSONObject("data")
-    println("data $data")
     return data
 }
 
@@ -244,7 +243,7 @@ fun SSOUT(accessTokenObject: JSONObject) {
 
     val json = JSONObject(response.body.string())
     val url = json.getString("description")
-    println(url)
+
     val request5 = Request.Builder().url(url).build()
     getHttpClient().newCall(request5).execute()
 
@@ -314,6 +313,13 @@ fun getHolidayList(accessTokenObject: JSONObject): JSONObject {
     return jsonObject
 }
 
+fun getChangelogJson(): JSONArray {
+    val request = Request.Builder().url("https://raw.githubusercontent.com/supersu-man/supersu-man.github.io/refs/heads/main/src/assets/paysquareroot/changelog.json").build()
+    val response = getHttpClient().newCall(request).execute()
+    val responseBody = response.body.string()
+    val jsonArray = JSONArray(responseBody)
+    return jsonArray
+}
 fun getUtcWindowFromDate(date: LocalDate): Pair<String, String> {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
@@ -328,7 +334,6 @@ fun getUtcWindowFromDate(date: LocalDate): Pair<String, String> {
         .withSecond(59)
         .withNano(999_000_000)
 
-    println( Pair(start.format(formatter), end.format(formatter)))
     return Pair(start.format(formatter), end.format(formatter))
 }
 

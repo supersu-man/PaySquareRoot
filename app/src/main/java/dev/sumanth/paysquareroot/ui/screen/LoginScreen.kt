@@ -42,6 +42,7 @@ import dev.sumanth.paysquareroot.R
 import dev.sumanth.paysquareroot.anniversaries
 import dev.sumanth.paysquareroot.birthdays
 import dev.sumanth.paysquareroot.companyData
+import dev.sumanth.paysquareroot.holidayList
 import dev.sumanth.paysquareroot.leaves
 import dev.sumanth.paysquareroot.punchTimes
 import dev.sumanth.paysquareroot.utils.PreferencesManager

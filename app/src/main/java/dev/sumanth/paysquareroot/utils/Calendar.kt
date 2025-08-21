@@ -30,8 +30,6 @@ fun getDateObjectV2(s: String): Date {
 }
 
 fun getTimeDifference(oldTime: Date, newTime: Date): String {
-    println("Olddate "+ oldTime)
-    println("New time " +newTime)
     val timeDifference = newTime.time - oldTime.time
     val hours = (timeDifference / (1000 * 60 * 60)) % 24
     val minutes = (timeDifference / (1000 * 60)) % 60
